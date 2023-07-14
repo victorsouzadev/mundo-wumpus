@@ -119,7 +119,7 @@ export class Celula {
   }
 }
 
-class Caracteristica {
+export class Caracteristica {
   public name?: string | undefined;
 
   constructor(name?: string | undefined){

@@ -1,4 +1,4 @@
-import { Celula } from "./ambiente";
+import { Ambiente, Celula } from "./ambiente";
 
 export class Objeto {
   localizacao!: Celula
@@ -28,10 +28,14 @@ export class Objeto {
 export class Agente extends Objeto {
 
   withGold = false;
-  constructor(name: string | null, withGold: boolean){
+  ambiente!: Ambiente;
+
+  constructor(name: string | null, withGold: boolean, ambiente: Ambiente){
     super(name, withGold);
     this.withGold = withGold;
     this.name = name;
+    console.log(ambiente)
+
   }
   get getName(): string{
     if(this.name != null){
