@@ -55,11 +55,23 @@ export class Ambiente{
 
     //this.celulas[i].objeto = poco;
   }
+  removeCaracteristicasByPosicaoObjeto(posicao: Posicao){
+    this.setCaracteristica(posicao.row - 1,posicao.column, null)
+    this.setCaracteristica(posicao.row,posicao.column - 1, null);
+    this.setCaracteristica(posicao.row + 1,posicao.column, null);
+    this.setCaracteristica(posicao.row,posicao.column + 1, null);
+  }
 
-  setCaracteristica(row: number, column: number, caracteristica: Caracteristica): void{
+  setCaracteristica(row: number, column: number, caracteristica: Caracteristica | null): void{
     for(let i = 0; i < this.celulas.length; i++) {
       if(this.celulas[i].row === row && this.celulas[i].column === column) {
-        this.celulas[i].caracteristica?.push(caracteristica);
+        if(caracteristica == null){
+          this.celulas[i].caracteristica = new Array<Caracteristica>();
+        }
+        if(caracteristica instanceof Caracteristica){
+          this.celulas[i].caracteristica?.push(caracteristica);
+        }
+
       }
     }
 
