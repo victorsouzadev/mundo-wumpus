@@ -15,7 +15,7 @@
           type="button"
           class="btn btn-secondary btn-sm"
           style="font-size: 16px; width: 200px"
-          (click)="restart()"
+          (click)="restart(true)"
         >
           Reiniciar ambiente
         </button>
@@ -25,7 +25,29 @@
           <label for="qtdArrow" class="form-label">Quantidade Flexas</label>
           <input
             type="number"
-            [(ngModel)]="qtdArrows"
+            [(ngModel)]="qtdPorIndividuo"
+            class="form-control"
+            id="qtdArrow"
+          />
+        </div>
+        <div class="col-3">
+          <label for="qtdArrow" class="form-label"
+            >Quantidade de individuos</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="qtdIndividuos"
+            class="form-control"
+            id="qtdArrow"
+          />
+        </div>
+        <div class="col-3">
+          <label for="qtdArrow" class="form-label"
+            >Quantidade para cada ação (ms)</label
+          >
+          <input
+            type="number"
+            [(ngModel)]="timeMs"
             class="form-control"
             id="qtdArrow"
           />
@@ -93,17 +115,23 @@
       </div>
     </div>
 
-    <br/>
-    <h2> Memoria do agente</h2>
+    <br />
+    <h2>Memoria do agente</h2>
     <div class="row">
       <div class="col-6">
         <div
           class="container"
-          *ngFor="let colums of [].constructor(ambienteMemoriaAgente.columns); let c = index"
+          *ngFor="
+            let colums of [].constructor(ambienteMemoriaAgente.columns);
+            let c = index
+          "
         >
           <div
             class="row div-lado-a-lado"
-            *ngFor="let row of [].constructor(ambienteMemoriaAgente.rows); let r = index"
+            *ngFor="
+              let row of [].constructor(ambienteMemoriaAgente.rows);
+              let r = index
+            "
           >
             <div class="col-12">
               <div class="celula" style="margin-left: 6px">
@@ -115,13 +143,18 @@
                   </div>
                   <div #address class="row">
                     <div class="col-12" style="font-size: 16px">
-                      {{ this.ambienteMemoriaAgente.getByColumnRow(c, r).objeto?.getName }}
+                      {{
+                        this.ambienteMemoriaAgente.getByColumnRow(c, r).objeto
+                          ?.getName
+                      }}
                     </div>
                   </div>
                   <div #address class="row">
                     <div class="col-12" style="font-size: 12px; color: red">
                       {{
-                        this.ambienteMemoriaAgente.getByColumnRow(c, r).getCaracteristica()
+                        this.ambienteMemoriaAgente
+                          .getByColumnRow(c, r)
+                          .getCaracteristica()
                       }}
                     </div>
                   </div>
@@ -133,8 +166,102 @@
       </div>
 
       <div class="col-6">
-        Quantidade de movimentos: {{qtdMovimentos}}
+        <div class="row">Quantidade de movimentos: {{ qtdMovimentos }}</div>
 
+        <div
+          class="container"
+          style="margin-top: 10px; font-size: 20px"
+          *ngFor="let individuo of individuosHistorico; let l = index"
+        >
+          <span>{{ l + 1 }} - Individuo: </span>
+          <span *ngFor="let posicao of individuo; let i = index">
+            {{ posicao.detalhes }} |
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="row">
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm"
+          style="font-size: 16px; width: 200px"
+          (click)="testar()"
+        >
+          Testar
+        </button>
+      </div>
+      <div class="row">
+
+        <div class="col-6">
+          <div
+            class="container"
+            *ngFor="
+              let colums of [].constructor(ambienteFixo.columns);
+              let c = index
+            "
+          >
+            <div
+              class="row div-lado-a-lado"
+              *ngFor="
+                let row of [].constructor(ambienteFixo.rows);
+                let r = index
+              "
+            >
+              <div class="col-12">
+                <div class="celula" style="margin-left: 6px">
+                  <div class="container">
+                    <div #address class="row">
+                      <div class="col-12" style="font-size: 8px">
+                        {{ c }},{{ r }}
+                      </div>
+                    </div>
+                    <div #address class="row">
+                      <div class="col-12" style="font-size: 16px">
+                        {{
+                          this.ambienteFixo.getByColumnRow(c, r).objeto
+                            ?.getName
+                        }}
+                      </div>
+                    </div>
+                    <div #address class="row">
+                      <div class="col-12" style="font-size: 12px; color: red">
+                        {{
+                          this.ambienteFixo
+                            .getByColumnRow(c, r)
+                            .getCaracteristica()
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{nextStep}}
+        <div class="col-6">
+          <div
+            class="container"
+            style="margin-top: 10px; font-size: 20px"
+            *ngFor="let solucao of solucoes; let l = index"
+          >
+            <span>{{ l + 1 }} - Solução: </span>
+            <span *ngFor="let caracteristica of solucao.caracteristicas; let i = index">
+              {{ caracteristica.nome }} |
+            </span>
+            <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            style="font-size: 16px; width: 200px"
+            (click)="testarSolucao(solucao.caracteristicas)"
+          >
+            Testar solução
+          </button>
+          </div>
+
+          </div>
       </div>
     </div>
   </div>

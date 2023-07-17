@@ -30,11 +30,10 @@ export class Agente extends Objeto {
   withGold = false;
   ambiente!: Ambiente;
 
-  constructor(name: string | null, withGold: boolean, ambiente: Ambiente){
+  constructor(name: string | null, withGold: boolean, ambiente: Ambiente | null){
     super(name, withGold);
     this.withGold = withGold;
     this.name = name;
-    console.log(ambiente)
 
   }
   get getName(): string{

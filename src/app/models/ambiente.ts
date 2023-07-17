@@ -20,7 +20,7 @@ export class Ambiente{
     }
   }
 
-  public getByColumnRow(row: number, column: number): Celula{
+  public getByColumnRow(row: number | undefined, column: number | undefined): Celula{
     for(let i = 0; i < this.celulas.length; i++) {
       if(this.celulas[i].row === row && this.celulas[i].column === column) {
         return this.celulas[i];
@@ -30,12 +30,17 @@ export class Ambiente{
     throw new Error(`Não foi encontrada uma célula na linha ${row} e coluna ${column}`);
   }
 
-  setObjectPositionRandow(poco: Objeto) {
+  setObjectPositionRandow(poco: Objeto, posicaoDefinida: Posicao | null): Posicao {
     let posicoes;
     let posicao;
     try {
       posicoes = this.getFreePositions();
-      posicao = posicoes[this.getRandomIntInclusive(0,posicoes.length-1)]
+      if(posicaoDefinida != null){
+        posicao = posicaoDefinida;
+      }else{
+        posicao = posicoes[this.getRandomIntInclusive(0,posicoes.length-1)]
+      }
+
       this.getByColumnRow(posicao.row,posicao.column).objeto = poco;
 
       let caracteristica: Caracteristica = new Caracteristica();
@@ -52,7 +57,7 @@ export class Ambiente{
     } catch (error) {
       console.log(posicoes,posicao )
     }
-
+    return posicao;
     //this.celulas[i].objeto = poco;
   }
   removeCaracteristicasByPosicaoObjeto(posicao: Posicao){
